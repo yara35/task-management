@@ -1,20 +1,23 @@
 import express from 'express';
 import { config } from 'dotenv';
-import { connectDB, disconnectDB } from './config/dp.js';
+import { connectDB, disconnectDB } from './config/db.js';
 //import routes
 import taskRoutes from './routes/taskRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 
 config();
 connectDB();
 
 
 const app = express();
+app.use(express.json());
 
 app.use("/tasks", taskRoutes);
+app.use("/auth", authRoutes);
 
 const PORT = 3000;
 app.listen(PORT, () => {
-    console.log('Server is running on port ${PORT}');
+    console.log(`Server is running on port ${PORT}`);
 })
 
 process.on('unhandledRejection', (err) => {
@@ -33,7 +36,7 @@ process.on('unhandledException', async (err) => {
 
 process.on('SIGTERM', async () => {
     console.log('SIGTERM received. Shutting down gracefully...');
-    sever.close( async () => {
+    server.close( async () => {
         await disconnectDB();
         process.exit(0);
     });
