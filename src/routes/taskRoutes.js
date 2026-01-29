@@ -1,22 +1,10 @@
 import express from 'express';
-
+import {getAllTasks, createTask } from '../controllers/taskController.js';
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.status(200).json({ message: 'Task route is working!' });
-});
+router.get('/', getAllTasks);
 
-router.post('/', (req, res) => {
-    res.status(200).json({ message: 'Task route is working!' });
-});
-
-router.put('/', (req, res) => {
-    res.status(200).json({ message: 'Task route is working!' });
-});
-
-router.delete('/', (req, res) => {
-    res.status(200).json({ message: 'Task route is working!' });
-});
+router.post('/', createTask);
 
 
 export default router;

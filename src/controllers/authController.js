@@ -1,6 +1,7 @@
 import { prisma } from '../config/db.js';
 import bcrypt from 'bcryptjs';
 import { generateToken } from '../utils/generateToken.js';
+import e from 'express';
 
 const register = async(req,res) => {
     const { name, email, password } = req.body;
@@ -75,4 +76,15 @@ const login = async(req,res) => {
 }
 
 
-export { register, login };
+const logout = (req, res) => {
+    res.cookie("jwt", "", {
+        httpOnly: true,
+        expiry: new Date(0)
+    });
+    res.status(200).json({ 
+        status: "success",
+        message: "Logout successful" });
+}
+
+
+export { register, login, logout };
