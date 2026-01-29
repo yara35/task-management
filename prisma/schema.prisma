@@ -12,13 +12,39 @@ datasource db {
   provider = "postgresql"
 }
 
+model User {
+  id        String      @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  tasks     Task[]
+  logs      Log[]
+  createdAt DateTime @default(now())
+}
 
 model Task {
   id          Int      @id @default(autoincrement())
   title       String
   description String?
-  status      String   @default("pending")
+  status      TaskStatus @default(TODO)
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+
+model Log {
+  id        Int      @id @default(autoincrement())
+  action    String
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  timestamp DateTime @default(now())
 }
 
