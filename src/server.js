@@ -2,6 +2,7 @@ import express from 'express';
 import { config } from 'dotenv';
 import { connectDB, disconnectDB } from './config/db.js';
 import limiter from './middleware/ratelimitMiddleware.js';
+import logMiddleware from './middleware/logMiddleware.js';
 //import routes
 import taskRoutes from './routes/taskRoutes.js';
 import authRoutes from './routes/authRoutes.js';
@@ -15,6 +16,7 @@ app.use(express.json());
 
 app.use(limiter);
 
+app.use(logMiddleware);
 
 app.use("/tasks", taskRoutes);
 app.use("/auth", authRoutes);
