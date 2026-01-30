@@ -61,6 +61,13 @@ const login = async(req,res) => {
     //Generate JWT token
     const token = generateToken(user.id, res);
 
+    await prisma.log.create({
+    data: {
+      action: 'USER_LOGIN',
+      userId: user.id
+    }
+  });
+
     res.status(200).json({ 
         message: "Login successful",
          data: 
@@ -81,6 +88,7 @@ const logout = (req, res) => {
         httpOnly: true,
         expiry: new Date(0)
     });
+
     res.status(200).json({ 
         status: "success",
         message: "Logout successful" });
