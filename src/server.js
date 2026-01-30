@@ -16,7 +16,7 @@ app.use("/tasks", taskRoutes);
 app.use("/auth", authRoutes);
 
 const PORT = 3000;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 })
 
