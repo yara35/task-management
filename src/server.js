@@ -18,6 +18,12 @@ app.use(limiter);
 
 app.use(logMiddleware);
 
+
+app.get('/', (req, res) => {
+  res.json({ message: 'Task Management API is running' });
+});
+
+
 app.use("/tasks", taskRoutes);
 app.use("/auth", authRoutes);
 
