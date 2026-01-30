@@ -1,6 +1,7 @@
 import express from 'express';
 import { config } from 'dotenv';
 import { connectDB, disconnectDB } from './config/db.js';
+import limiter from './middleware/ratelimitMiddleware.js';
 //import routes
 import taskRoutes from './routes/taskRoutes.js';
 import authRoutes from './routes/authRoutes.js';
@@ -11,6 +12,9 @@ connectDB();
 
 const app = express();
 app.use(express.json());
+
+app.use(limiter);
+
 
 app.use("/tasks", taskRoutes);
 app.use("/auth", authRoutes);
