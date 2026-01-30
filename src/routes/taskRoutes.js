@@ -3,7 +3,8 @@ import {getAllTasks, createTask ,removeTask} from '../controllers/taskController
 import authMiddleware from '../middleware/authMiddleware.js';
 import { validateRequest } from '../middleware/validateRequest.js';
 import { createTaskSchema } from '../validators/taskValidators.js';
-
+import { sanitizeTask } from './middleware/sanitizeMiddleware.js';
+import { expressValidatorHandler } from '../middleware/expressValidatorHandlerMiddleware.js';
 
 
 const router = express.Router();
@@ -11,7 +12,7 @@ router.use(authMiddleware);
 
 router.get('/', getAllTasks);
 
-router.post('/', validateRequest(createTaskSchema), createTask);
+router.post('/', sanitizeTask, validateRequest(createTaskSchema), expressValidatorHandler,  createTask);
 
 router.delete('/:id', removeTask);
 
